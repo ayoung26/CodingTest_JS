@@ -1,22 +1,24 @@
+// 재귀함수
+function dfs(node, computers, visited) {
+    visited[node] = true;
+    // 연결된 모든 컴퓨터 순회하여 방문처리
+    computers[node].forEach((connect, n) => {
+        if (connect && !visited[n]) {
+            dfs(n, computers, visited);
+        }
+    })
+}
+
 function solution(n, computers) {
-    let visited = new Array(n).fill(false);
-    let networkCount = 0;
+    let count = 0;
+    const visited = new Array(n);
 
-    function dfs(node) {
-        visited[node] = true; // 현재 노드 방문 처리
-        for (let i = 0; i < n; i++) {
-            if (computers[node][i] === 1 && !visited[i]) {
-                dfs(i); // 연결된 노드 재귀적으로 방문
-            }
-        }
-    }
-
-    for (let i = 0; i < n; i++) {
+    for (let i = 0 ; i < n ; i++) {
         if (!visited[i]) {
-            dfs(i); // 아직 방문하지 않은 노드가 있으면 DFS 시작
-            networkCount++; // 새로운 네트워크 발견
+            dfs(i, computers, visited);
+            count++;
         }
     }
 
-    return networkCount; // 네트워크의 개수 반환
+    return count;
 }
